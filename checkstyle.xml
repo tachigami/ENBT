@@ -159,7 +159,9 @@
             <property name="tokens" value="IMPORT, PACKAGE_DEF, INTERFACE_DEF"/>
         </module>
 
-        <module name="AbbreviationAsWordInName"/>
+        <module name="AbbreviationAsWordInName">
+            <property name="allowedAbbreviationLength" value="4"/>
+        </module>
 
     </module>
 </module>
