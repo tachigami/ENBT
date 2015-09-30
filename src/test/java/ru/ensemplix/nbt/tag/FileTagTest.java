@@ -33,5 +33,4 @@ public class FileTagTest {
         new NBTInputStream(new FileInputStream("src/test/resources/" + file), true).readTag();
     }
 
-
 }
