@@ -151,7 +151,9 @@
 
         <!-- Обязательная пустая строка после пакета, импорта, поля,
            конструктора и т.д. -->
-        <module name="EmptyLineSeparator"/>
+        <module name="EmptyLineSeparator">
+            <property name="allowNoEmptyLineBetweenFields" value="true"/>
+        </module>
 
         <!-- Запрещает делать переносы строки для всего кроме
                   конструкторов и методов. -->

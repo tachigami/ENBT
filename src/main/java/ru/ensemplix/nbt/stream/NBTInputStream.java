@@ -6,13 +6,18 @@ import ru.ensemplix.nbt.tag.TagType;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.zip.GZIPInputStream;
 
 import static ru.ensemplix.nbt.tag.TagType.END;
 
 public class NBTInputStream extends DataInputStream {
 
-    public NBTInputStream(InputStream in) {
-        super(in);
+    public NBTInputStream(InputStream in) throws IOException {
+        this(in, false);
+    }
+
+    public NBTInputStream(InputStream in, boolean compressed) throws IOException {
+        super(compressed ? new GZIPInputStream(in) : in);
     }
 
     public TagType readTagType() throws IOException {

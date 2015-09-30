@@ -23,6 +23,10 @@ public class CompoundTag extends AbstractTag<Map<String, Tag>> {
         super(name, value);
     }
 
+    public void setTag(Tag tag) {
+        value.put(tag.getName(), tag);
+    }
+
     @Override
     public void readTag(NBTInputStream in) throws IOException {
         value = new HashMap<>();
@@ -45,10 +49,6 @@ public class CompoundTag extends AbstractTag<Map<String, Tag>> {
         }
 
         out.writeByte(0);
-    }
-
-    public void addTag(Tag tag) {
-        value.put(tag.getName(), tag);
     }
 
     @Override

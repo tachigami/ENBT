@@ -35,7 +35,11 @@ public enum TagType {
     }
 
     public static TagType getType(int id) {
-        return types.get(id);
+        if(id <= types.size()) {
+            return types.get(id);
+        }
+
+        return null;
     }
 
 }

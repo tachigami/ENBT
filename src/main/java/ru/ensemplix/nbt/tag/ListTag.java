@@ -11,12 +11,16 @@ import static ru.ensemplix.nbt.tag.TagType.*;
 
 public class ListTag extends AbstractTag<List<Tag>> {
 
-    public ListTag(String name, List<Tag> value) {
-        super(name, value);
+    public ListTag() {
+        super("", new ArrayList<>());
     }
 
     public ListTag(String name) {
         super(name, new ArrayList<>());
+    }
+
+    public ListTag(String name, List<Tag> value) {
+        super(name, value);
     }
 
     @Override
@@ -32,9 +36,7 @@ public class ListTag extends AbstractTag<List<Tag>> {
         int length = in.readInt();
 
         for(int i = 0; i < length; i++) {
-            Tag tag = in.createTag("", type);
-            tag.readTag(in);
-            value.add(tag);
+            value.add(in.readTag());
         }
     }
 
@@ -49,7 +51,7 @@ public class ListTag extends AbstractTag<List<Tag>> {
         out.writeInt(value.size());
 
         for(Tag tag : value) {
-            tag.writeTag(out);
+            out.writeTag(tag);
         }
     }
 
