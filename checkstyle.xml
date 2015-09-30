@@ -156,8 +156,7 @@
         <!-- Запрещает делать переносы строки для всего кроме
                   конструкторов и методов. -->
         <module name="NoLineWrap">
-            <property name="tokens" value="IMPORT, PACKAGE_DEF, ENUM_DEF,
-            INTERFACE_DEF"/>
+            <property name="tokens" value="IMPORT, PACKAGE_DEF, INTERFACE_DEF"/>
         </module>
 
         <module name="AbbreviationAsWordInName"/>
