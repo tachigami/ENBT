@@ -31,9 +31,6 @@ public class ListTag extends AbstractTag<List<Tag>> {
 
         int length = in.readInt();
 
-        System.out.println(type);
-        System.out.println(length + " OUR");
-
         for(int i = 0; i < length; i++) {
             Tag tag = in.createTag("", type);
             tag.readTag(in);
