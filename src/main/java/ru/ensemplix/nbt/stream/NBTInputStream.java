@@ -6,6 +6,7 @@ import ru.ensemplix.nbt.tag.TagType;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Constructor;
 import java.util.zip.GZIPInputStream;
 
 import static ru.ensemplix.nbt.tag.TagType.END;
@@ -46,10 +47,16 @@ public class NBTInputStream extends DataInputStream {
 
     public Tag createTag(String name, TagType type) {
         try {
-            return (Tag) type.getCls().getConstructors()[0].newInstance(name, null);
+            for(Constructor constructor : type.getCls().getConstructors()) {
+                if(constructor.getParameters().length == 2) {
+                    return (Tag) constructor.newInstance(name, null);
+                }
+            }
         } catch(Exception e) {
             throw new IllegalStateException("Failed create " + type + " tag " + name, e);
         }
+
+        return null;
     }
 
 }
