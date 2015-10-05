@@ -25,23 +25,30 @@ public class ObjectConverter {
             if (nbt != null) {
                 String name = nbt.value().isEmpty() ? field.getName() : nbt.value();
                 TagType type = TagType.getType(field.getType());
+                Object value = field.get(obj);
                 Tag tag;
+
+                if(value == null) {
+                    continue;
+                }
 
                 if(type != null) {
                     if(type != LIST) {
-                        tag = type.createTag(name, field.get(obj));
+                        tag = type.createTag(name, value);
                     } else {
                         tag = type.createTag(name, new ArrayList<>());
                         ListTag listTag = (ListTag) tag;
                         List<Tag> listValue = listTag.getValue();
 
-                        for(Object fieldValue : (List) field.get(obj)) {
-                            TagType fieldType = TagType.getType(fieldValue.getClass());
+                        for(Object fieldValue : (List) value) {
+                            if(fieldValue != null) {
+                                TagType fieldType = TagType.getType(fieldValue.getClass());
 
-                            if(fieldType != null) {
-                                listValue.add(fieldType.createTag(name, fieldValue));
-                            } else {
-                                listValue.add(toTag(name, fieldValue));
+                                if (fieldType != null) {
+                                    listValue.add(fieldType.createTag(name, fieldValue));
+                                } else {
+                                    listValue.add(toTag(name, fieldValue));
+                                }
                             }
                         }
                     }
