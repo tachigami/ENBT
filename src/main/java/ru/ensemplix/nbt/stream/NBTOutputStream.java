@@ -24,8 +24,12 @@ public class NBTOutputStream extends DataOutputStream {
         tag.writeTag(this);
     }
 
-    public void writeObject(Object obj) throws IOException, IllegalAccessException {
-        writeTag(ObjectConverter.toTag("", obj));
+    public void writeObject(Object obj) throws IOException {
+        try {
+            writeTag(ObjectConverter.toTag("", obj));
+        } catch (IllegalAccessException e) {
+            throw new IllegalStateException("Failed write NBT object " + obj.getClass().getName(), e);
+        }
     }
 
 }

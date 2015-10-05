@@ -71,7 +71,7 @@ public class ObjectConverter {
         try {
             obj = cls.getDeclaredConstructor().newInstance();
         } catch (Exception e) {
-            throw new IllegalStateException("Failed read NBT object from " + cls.getName(), e);
+            throw new IllegalStateException("Failed create NBT object from " + cls.getName(), e);
         }
 
         for (Field field : cls.getDeclaredFields()) {

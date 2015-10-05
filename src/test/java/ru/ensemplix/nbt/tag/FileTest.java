@@ -44,7 +44,7 @@ public class FileTest {
     private NBTInputStream in;
 
     @Test
-    public void testServers() throws IOException, IllegalAccessException {
+    public void testServers() throws IOException {
         in = new NBTInputStream(new FileInputStream("src/test/resources/servers.dat"), false);
 
         ServerList serverList = in.readObject(ServerList.class);

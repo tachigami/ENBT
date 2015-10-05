@@ -47,8 +47,12 @@ public class NBTInputStream extends DataInputStream {
         return tag;
     }
 
-    public <T> T readObject(Class<T> cls) throws IOException, IllegalAccessException {
-        return ObjectConverter.toObject(cls, (CompoundTag) readTag());
+    public <T> T readObject(Class<T> cls) throws IOException {
+        try {
+            return ObjectConverter.toObject(cls, (CompoundTag) readTag());
+        } catch (IllegalAccessException e) {
+            throw new IllegalStateException("Failed read NBT object" + cls.getName(), e);
+        }
     }
 
 }

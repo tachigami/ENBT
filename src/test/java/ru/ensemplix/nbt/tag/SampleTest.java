@@ -35,7 +35,7 @@ public class SampleTest {
     }
 
     @Test
-    public void testObjectPrimitives() throws IOException, IllegalAccessException {
+    public void testObjectPrimitives() throws IOException {
         SamplePrimitives primitives = new SamplePrimitives();
         primitives.fill();
 
@@ -44,7 +44,7 @@ public class SampleTest {
     }
 
     @Test
-    public void testTagPrimitives() throws IOException, IllegalAccessException {
+    public void testTagPrimitives() throws IOException {
         SamplePrimitives primitives = new SamplePrimitives();
         primitives.fill();
 
@@ -53,7 +53,7 @@ public class SampleTest {
     }
 
     @Test
-    public void testArraysAndListObject() throws IOException, IllegalAccessException {
+    public void testArraysAndListObject() throws IOException {
         SampleArraysAndList outObject = new SampleArraysAndList();
         outObject.fill();
 
@@ -66,7 +66,7 @@ public class SampleTest {
     }
 
     @Test
-    public void testArraysAndListTags() throws IOException, IllegalAccessException {
+    public void testArraysAndListTags() throws IOException {
         SampleArraysAndList arraysAndList = new SampleArraysAndList();
         arraysAndList.fill();
 
@@ -75,7 +75,7 @@ public class SampleTest {
     }
 
     @Test
-    public void testCompoundObject() throws IOException, IllegalAccessException {
+    public void testCompoundObject() throws IOException {
         SampleCompound outObject = new SampleCompound();
         outObject.fill();
 
@@ -93,7 +93,7 @@ public class SampleTest {
     }
 
     @Test
-    public void testCompoundTag() throws IOException, IllegalAccessException {
+    public void testCompoundTag() throws IOException {
         SampleCompound compound = new SampleCompound();
         compound.fill();
 
