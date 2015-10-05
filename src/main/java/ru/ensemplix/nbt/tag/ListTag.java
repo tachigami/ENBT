@@ -7,7 +7,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static ru.ensemplix.nbt.tag.TagType.*;
+import static ru.ensemplix.nbt.tag.TagType.END;
+import static ru.ensemplix.nbt.tag.TagType.LIST;
 
 public class ListTag extends AbstractTag<List<Tag>> {
 
@@ -36,7 +37,10 @@ public class ListTag extends AbstractTag<List<Tag>> {
         int length = in.readInt();
 
         for(int i = 0; i < length; i++) {
-            value.add(in.readTag());
+            Tag tag = type.createTag();
+            tag.readTag(in);
+
+            value.add(tag);
         }
     }
 
@@ -51,7 +55,7 @@ public class ListTag extends AbstractTag<List<Tag>> {
         out.writeInt(value.size());
 
         for(Tag tag : value) {
-            out.writeTag(tag);
+            tag.writeTag(out);
         }
     }
 

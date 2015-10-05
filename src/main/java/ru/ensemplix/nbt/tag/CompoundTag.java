@@ -27,17 +27,16 @@ public class CompoundTag extends AbstractTag<Map<String, Tag>> {
         value.put(tag.getName(), tag);
     }
 
+    public Tag getValue(String name) {
+        return value.get(name);
+    }
+
     @Override
     public void readTag(NBTInputStream in) throws IOException {
         value = new HashMap<>();
+        Tag tag;
 
-        while(true) {
-            Tag tag = in.readTag();
-
-            if(tag == null) {
-                break;
-            }
-
+        while((tag = in.readTag()) != null) {
             value.put(tag.getName(), tag);
         }
     }

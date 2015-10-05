@@ -60,6 +60,7 @@ publishing {
 
 dependencies {
     compile 'org.projectlombok:lombok:1.16.2'
+    compile 'com.google.guava:guava:18.0'
 
     testCompile 'junit:junit:4.12'
 }

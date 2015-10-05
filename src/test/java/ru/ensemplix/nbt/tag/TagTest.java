@@ -49,7 +49,7 @@ public class TagTest {
 
     @Before
     public void prepareStreams() throws IOException {
-        File file = File.createTempFile("test", ".tmp");
+        File file = File.createTempFile("tagTest", ".tmp");
         file.deleteOnExit();
 
         out = new NBTOutputStream(new FileOutputStream(file));
@@ -68,7 +68,7 @@ public class TagTest {
     }
 
     @Theory
-    public void testArrayTags(@FromDataPoints("arrays") Tag outTag) throws IOException {
+    public void testArraysTags(@FromDataPoints("arrays") Tag outTag) throws IOException {
         out.writeTag(outTag);
         Tag inTag = in.readTag();
 
@@ -94,8 +94,8 @@ public class TagTest {
         ListTag outTag = new ListTag("list");
         List<Tag> value = outTag.getValue();
 
-        value.add(new StringTag("i", "love"));
-        value.add(new StringTag("Koala", "<3"));
+        value.add(new StringTag("I love"));
+        value.add(new StringTag("Koala <3"));
 
         out.writeTag(outTag);
         Tag inTag = in.readTag();

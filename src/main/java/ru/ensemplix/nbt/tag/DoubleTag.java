@@ -5,7 +5,7 @@ import ru.ensemplix.nbt.stream.NBTOutputStream;
 
 import java.io.IOException;
 
-import static ru.ensemplix.nbt.tag.TagType.*;
+import static ru.ensemplix.nbt.tag.TagType.DOUBLE;
 
 public class DoubleTag extends AbstractTag<Double> {
 

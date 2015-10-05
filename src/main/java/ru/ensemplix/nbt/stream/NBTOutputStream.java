@@ -1,5 +1,6 @@
 package ru.ensemplix.nbt.stream;
 
+import ru.ensemplix.nbt.converter.ObjectConverter;
 import ru.ensemplix.nbt.tag.Tag;
 
 import java.io.DataOutputStream;
@@ -21,6 +22,10 @@ public class NBTOutputStream extends DataOutputStream {
         writeByte(tag.getType().ordinal());
         writeUTF(tag.getName());
         tag.writeTag(this);
+    }
+
+    public void writeObject(Object obj) throws IOException, IllegalAccessException {
+        writeTag(ObjectConverter.toTag("", obj));
     }
 
 }

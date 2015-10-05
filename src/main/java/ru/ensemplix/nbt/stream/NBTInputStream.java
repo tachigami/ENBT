@@ -1,15 +1,17 @@
 package ru.ensemplix.nbt.stream;
 
+import ru.ensemplix.nbt.converter.ObjectConverter;
+import ru.ensemplix.nbt.tag.CompoundTag;
 import ru.ensemplix.nbt.tag.Tag;
 import ru.ensemplix.nbt.tag.TagType;
 
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.Constructor;
 import java.util.zip.GZIPInputStream;
 
 import static ru.ensemplix.nbt.tag.TagType.END;
+import static ru.ensemplix.nbt.tag.TagType.getType;
 
 public class NBTInputStream extends DataInputStream {
 
@@ -23,7 +25,7 @@ public class NBTInputStream extends DataInputStream {
 
     public TagType readTagType() throws IOException {
         int id = readUnsignedByte();
-        TagType type = TagType.getType(id);
+        TagType type = getType(id);
 
         if(type == null) {
             throw new IllegalStateException("Unknown NBT tag type: " + id);
@@ -39,24 +41,14 @@ public class NBTInputStream extends DataInputStream {
             return null;
         }
 
-        Tag tag = createTag(readUTF(), type);
+        Tag tag = type.createTag(readUTF());
         tag.readTag(this);
 
         return tag;
     }
 
-    public Tag createTag(String name, TagType type) {
-        try {
-            for(Constructor constructor : type.getCls().getConstructors()) {
-                if(constructor.getParameters().length == 2) {
-                    return (Tag) constructor.newInstance(name, null);
-                }
-            }
-        } catch(Exception e) {
-            throw new IllegalStateException("Failed create " + type + " tag " + name, e);
-        }
-
-        return null;
+    public <T> T readObject(Class<T> cls) throws IOException, IllegalAccessException {
+        return ObjectConverter.toObject(cls, (CompoundTag) readTag());
     }
 
 }
