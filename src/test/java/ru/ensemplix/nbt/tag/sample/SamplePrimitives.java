@@ -27,7 +27,7 @@ public class SamplePrimitives {
     public double sampleDouble;
 
     @NBT
-    public String string;
+    private String string;
 
     public String emptyString;
 

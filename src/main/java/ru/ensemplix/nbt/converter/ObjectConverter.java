@@ -19,10 +19,12 @@ public class ObjectConverter {
     public static CompoundTag toTag(String compoundName, Object obj) throws IllegalAccessException {
         CompoundTag compoundTag = new CompoundTag(compoundName);
 
-        for (Field field : obj.getClass().getFields()) {
+        for (Field field : obj.getClass().getDeclaredFields()) {
             NBT nbt = field.getAnnotation(NBT.class);
 
             if (nbt != null) {
+                field.setAccessible(true);
+
                 String name = nbt.value().isEmpty() ? field.getName() : nbt.value();
                 TagType type = TagType.getType(field.getType());
                 Object value = field.get(obj);
@@ -72,10 +74,12 @@ public class ObjectConverter {
             throw new IllegalStateException("Failed read NBT object from " + cls.getName(), e);
         }
 
-        for (Field field : cls.getFields()) {
+        for (Field field : cls.getDeclaredFields()) {
             NBT nbt = field.getAnnotation(NBT.class);
 
             if(nbt != null) {
+                field.setAccessible(true);
+
                 String name = nbt.value().isEmpty() ? field.getName() : nbt.value();
                 Tag tag = compoundTag.getValue(name);
 
