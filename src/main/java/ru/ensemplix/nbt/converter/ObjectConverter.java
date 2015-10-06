@@ -1,14 +1,12 @@
 package ru.ensemplix.nbt.converter;
 
 import ru.ensemplix.nbt.annotation.NBT;
-import ru.ensemplix.nbt.tag.CompoundTag;
-import ru.ensemplix.nbt.tag.ListTag;
-import ru.ensemplix.nbt.tag.Tag;
-import ru.ensemplix.nbt.tag.TagType;
+import ru.ensemplix.nbt.tag.*;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static ru.ensemplix.nbt.tag.TagType.COMPOUND;
@@ -16,14 +14,16 @@ import static ru.ensemplix.nbt.tag.TagType.LIST;
 
 public class ObjectConverter {
 
-    public static CompoundTag toTag(String compoundName, Object obj) throws IllegalAccessException {
+    public static Tag toTag(String compoundName, Object obj) throws IllegalAccessException {
         CompoundTag compoundTag = new CompoundTag(compoundName);
+        boolean hasNBTFields = false;
 
-        for (Field field : obj.getClass().getDeclaredFields()) {
+        for (Field field : getFields(obj.getClass())) {
             NBT nbt = field.getAnnotation(NBT.class);
 
             if (nbt != null) {
                 field.setAccessible(true);
+                hasNBTFields = true;
 
                 String name = nbt.value().isEmpty() ? field.getName() : nbt.value();
                 TagType type = TagType.getType(field.getType());
@@ -62,6 +62,10 @@ public class ObjectConverter {
             }
         }
 
+        if(!hasNBTFields && Enum.class.isAssignableFrom(obj.getClass())) {
+            return new IntegerTag(compoundName, ((Enum) obj).ordinal());
+        }
+
         return compoundTag;
     }
 
@@ -74,7 +78,7 @@ public class ObjectConverter {
             throw new IllegalStateException("Failed create NBT object from " + cls.getName(), e);
         }
 
-        for (Field field : cls.getDeclaredFields()) {
+        for (Field field : getFields(cls)) {
             NBT nbt = field.getAnnotation(NBT.class);
 
             if(nbt != null) {
@@ -107,6 +111,8 @@ public class ObjectConverter {
 
                         if(value.getClass() == Byte.class && field.getType() == boolean.class) {
                             field.set(obj, (byte) value == 1);
+                        } else if(Enum.class.isAssignableFrom(field.getType())) {
+                            field.set(obj, field.getType().getEnumConstants()[((int) value)]);
                         } else {
                             field.set(obj, value);
                         }
@@ -116,6 +122,17 @@ public class ObjectConverter {
         }
 
         return obj;
+    }
+
+    private static List<Field> getFields(Class cls) {
+        List<Field> fields = new ArrayList<>();
+        fields.addAll(Arrays.asList(cls.getDeclaredFields()));
+
+        if(cls.getSuperclass() != null) {
+            fields.addAll(Arrays.asList(cls.getSuperclass().getDeclaredFields()));
+        }
+
+        return fields;
     }
 
 

@@ -31,6 +31,9 @@ public class SamplePrimitives {
 
     public String emptyString;
 
+    @NBT("enum")
+    private SampleEnum sampleEnum;
+
     public void fill() {
         sampleByte = 1;
         sampleShort = 23;
@@ -39,6 +42,7 @@ public class SamplePrimitives {
         sampleFloat = 5.6F;
         sampleLong = 87900876675L;
         string = "I Love Koala <3";
+        sampleEnum = SampleEnum.FIRST;
     }
 
 }
