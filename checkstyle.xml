@@ -20,7 +20,7 @@
     </module>
 
     <module name="TreeWalker">
-        <!-- Максимальная длина строки 120 символов. -->
+        <!-- Максимальная длина строки 120 линий. -->
         <module name="LineLength">
             <property name="max" value="120"/>
         </module>
@@ -34,10 +34,10 @@
         <!-- Запрещено использовать бесполезные модификаторы. -->
         <module name="RedundantModifier"/>
 
-        <!-- Максимальная длинна метода не должна быть больше 150 строк. -->
+        <!-- Максимальная длинна метода не должна быть больше 300 строк. -->
         <module name="MethodLength">
             <property name="tokens" value="METHOD_DEF"/>
-            <property name="max" value="150"/>
+            <property name="max" value="300"/>
         </module>
 
         <!-- Количество параметров в конструкторе или методе не должно быть больше 7. -->
@@ -46,8 +46,17 @@
         <!-- Имя класса и файла должно обязательно совпадать-->
         <module name="OuterTypeFilename"/>
 
-        <!-- Пустые блоки кода запрещены. -->
-        <module name="EmptyBlock"/>
+        <!-- Пустые блоки кода запрещены (кроме catch). -->
+        <module name="EmptyBlock">
+            <property name="tokens" value="LITERAL_DO, LITERAL_ELSE, LITERAL_FINALLY,LITERAL_IF,
+            LITERAL_FOR, LITERAL_TRY, LITERAL_WHILE, INSTANCE_INIT, STATIC_INIT, LITERAL_SWITCH"/>
+        </module>
+
+        <!-- Пустые блоки catch без комментария запрещены. -->
+        <module name="EmptyBlock">
+            <property name="option" value="text"/>
+            <property name="tokens" value="LITERAL_CATCH"/>
+        </module>
 
         <!-- Обязательно наличие скобок вокруг блока кода. -->
         <module name="NeedBraces"/>
@@ -73,6 +82,7 @@
         <!-- Константы должны быть обязательно написаны верхним регистром. -->
         <module name="ConstantName">
             <property name="applyToPrivate" value="false"/>
+            <property name="applyToProtected" value="false"/>
         </module>
 
         <!-- Название пакета должно быть написано нижним регистром. -->
@@ -92,11 +102,11 @@
 
         <!-- Отступ с 2-ух сторон от каждого выражения и оператора. -->
         <module name="WhitespaceAround">
-            <property name="tokens" value=" ASSIGN, BAND, BAND_ASSIGN, BOR, BOR_ASSIGN, BSR,
+            <property name="tokens" value="ASSIGN, BAND, BAND_ASSIGN, BOR, BOR_ASSIGN, BSR,
              BSR_ASSIGN, BXOR, BXOR_ASSIGN, COLON, DIV, DIV_ASSIGN, DO_WHILE, EQUAL, GE, GT,
-              LAND, LCURLY, LE, LOR, LT, MINUS, MINUS_ASSIGN, MOD, MOD_ASSIGN, NOT_EQUAL,
-              PLUS, PLUS_ASSIGN, QUESTION, RCURLY, SL, SLIST, SL_ASSIGN, SR, SR_ASSIGN,
-              STAR, STAR_ASSIGN, TYPE_EXTENSION_AND"/>
+              LAND, LCURLY, LE, LOR, LT, MINUS, MOD, NOT_EQUAL, PLUS, QUESTION, RCURLY, SL,
+              SLIST, SL_ASSIGN, SR, SR_ASSIGN, STAR, TYPE_EXTENSION_AND"/>
+            <property name="allowEmptyMethods" value="true"/>
         </module>
 
         <!-- Пробел после запятой, каста объекта, точки с запятой. -->
@@ -140,30 +150,32 @@
             <property name="arrayInitIndent" value="8"/>
         </module>
 
-        <!-- Внутренние классы должны находиться в конце файла. -->
-        <module name="InnerTypeLast"/>
-
         <!-- Проверяет на неправильные булевые выражения. -->
         <module name="SimplifyBooleanExpression"/>
 
         <!-- Запрещает возвращать неправильные булевые выражения. -->
         <module name="SimplifyBooleanReturn"/>
 
-        <!-- Обязательная пустая строка после пакета, импорта, поля,
-           конструктора и т.д. -->
+        <!-- После иницилизации переменной она должна быть использована в течение 8 строк. -->
+        <module name="VariableDeclarationUsageDistance">
+            <property name="allowedDistance" value="10"/>
+        </module>
+
+        <!-- Обязательная пустая строка после пакета, импорта, конструктора и т.д. -->
         <module name="EmptyLineSeparator">
             <property name="allowNoEmptyLineBetweenFields" value="true"/>
         </module>
 
-        <!-- Запрещает делать переносы строки для всего кроме
-                  конструкторов и методов. -->
+        <!-- Переносы посреди выражения для всего кроме конструкторов, методов и классов. -->
         <module name="NoLineWrap">
             <property name="tokens" value="IMPORT, PACKAGE_DEF, INTERFACE_DEF"/>
         </module>
 
-        <module name="AbbreviationAsWordInName">
-            <property name="allowedAbbreviationLength" value="4"/>
-        </module>
+        <!-- Название класса должно совпадать с названием файла. -->
+        <module name="OneTopLevelClass"/>
+
+        <!-- Запрещены unicode символы в строках. -->
+        <module name="AvoidEscapedUnicodeCharacters"/>
 
     </module>
 </module>
