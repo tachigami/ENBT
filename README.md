@@ -1,6 +1,6 @@
 ENBT [![Build Status](https://travis-ci.org/Ensemplix/ENBT.svg?branch=master)](https://travis-ci.org/Ensemplix/ENBT)
 ============
-**E**nsemplix **N**amed **B**inary **F**ormat - это наша реализация сериализации данных, которую придумали в Mojang. Спецификацию формата можно прочитать [здесь](http://goo.gl/1H3qr2). 
+**E**nsemplix **N**amed **B**inary **F**ormat - это наша реализация сериализации данных, которую придумали в Mojang. Спецификацию формата можно прочитать [здесь](http://web.archive.org/web/20110723210920/http://www.minecraft.net/docs/NBT.txt). 
 
 ## Подключение
 
