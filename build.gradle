@@ -1,8 +1,23 @@
-apply plugin: 'com.github.johnrengelman.shadow'
-apply plugin: 'maven-publish'
-apply plugin: 'checkstyle'
-apply plugin: 'java'
+ext {
+    junitVersion = "4.12"
+    lombokVersion = '1.16.10'
+    guavaVersion = '18.0'
+    checkstyleVersion = '7.1.2'
+}
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.3'
+    }
+}
+
 apply plugin: 'idea'
+apply plugin: 'maven-publish'
+apply plugin: 'java'
 
 group = 'ru.ensemplix.nbt'
 version = '1.0-SNAPSHOT'
@@ -12,31 +27,16 @@ version = '1.0-SNAPSHOT'
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
-checkstyle {
-    toolVersion = '6.3'
-    configFile = file('checkstyle.xml')
-}
-
-buildscript {
-    repositories {
-        jcenter()
-    }
-
-    dependencies {
-        classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.2'
-    }
-}
-
-shadowJar {
-    classifier = ''
-
-    dependencies {
-        exclude(dependency('org.projectlombok:lombok:1.16.2'))
-    }
-}
-
 repositories {
     mavenCentral()
+}
+
+dependencies {
+    compileOnly "org.projectlombok:lombok:${lombokVersion}"
+    compile "com.google.guava:guava:${guavaVersion}"
+
+    testCompileOnly "org.projectlombok:lombok:${lombokVersion}"
+    testCompile "junit:junit:${junitVersion}"
 }
 
 publishing {
@@ -58,9 +58,21 @@ publishing {
     }
 }
 
-dependencies {
-    compile 'org.projectlombok:lombok:1.16.2'
-    compile 'com.google.guava:guava:18.0'
+apply plugin: 'checkstyle'
+checkstyle {
+    toolVersion = ${checkstyleVersion}
+    configFile = file('checkstyle.xml')
+}
 
-    testCompile 'junit:junit:4.12'
+apply plugin: 'com.github.johnrengelman.shadow'
+shadowJar {
+    classifier = ''
+
+    dependencies {
+        exclude(dependency('org.projectlombok:lombok'))
+    }
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '3.1'
 }
