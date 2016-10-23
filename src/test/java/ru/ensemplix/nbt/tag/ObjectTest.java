@@ -39,7 +39,30 @@ public class ObjectTest {
         assertEquals(1, servers.size());
         assertEquals("Ensemplix Sandbox", servers.get(0).name);
         assertEquals("sv1.ensemplix.ru:25565", servers.get(0).ip);
-        assertEquals(false, servers.get(0).hideAddress);
+        assertEquals(true, servers.get(0).hideAddress);
+    }
+
+    @Test
+    public void testServers2() throws IOException {
+        File file = File.createTempFile("serversTest", ".tmp");
+        file.deleteOnExit();
+
+        in = new NBTInputStream(new FileInputStream(file));
+        out = new NBTOutputStream(new FileOutputStream(file));
+
+        ServerList outServerList = new ServerList();
+        outServerList.servers.add(new Server("Ensemplix Sandbox", "sv1.ensemplix.ru:25565", true));
+
+        out.writeObject(outServerList);
+
+        ServerList inServerList = in.readObject(ServerList.class);
+        List<Server> servers = inServerList.servers;
+
+        assertNotNull(servers);
+        assertEquals(1, servers.size());
+        assertEquals("Ensemplix Sandbox", servers.get(0).name);
+        assertEquals("sv1.ensemplix.ru:25565", servers.get(0).ip);
+        assertEquals(true, servers.get(0).hideAddress);
     }
 
     @Test

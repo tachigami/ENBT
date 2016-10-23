@@ -18,10 +18,10 @@ public class ObjectConverter {
         CompoundTag compoundTag = new CompoundTag(compoundName);
         boolean hasNBTFields = false;
 
-        for (Field field : getFields(obj.getClass())) {
+        for(Field field : getFields(obj.getClass())) {
             NBT nbt = field.getAnnotation(NBT.class);
 
-            if (nbt != null) {
+            if(nbt != null) {
                 field.setAccessible(true);
                 hasNBTFields = true;
 
@@ -43,7 +43,7 @@ public class ObjectConverter {
                         List<Tag> listValue = listTag.getValue();
 
                         for(Object fieldValue : (List) value) {
-                            if(fieldValue != null) {
+                            if (fieldValue != null) {
                                 TagType fieldType = TagType.getType(fieldValue.getClass());
 
                                 if (fieldType != null) {
@@ -54,6 +54,9 @@ public class ObjectConverter {
                             }
                         }
                     }
+                } else if(field.getType() == boolean.class) {
+                    type = TagType.getType(byte.class);
+                    tag = type.createTag(name, (byte) (((boolean) value) == true ? 1 : 0));
                 } else {
                     tag = toTag(name, field.get(obj));
                 }
@@ -78,7 +81,7 @@ public class ObjectConverter {
             throw new IllegalStateException("Failed create NBT object from " + cls.getName(), e);
         }
 
-        for (Field field : getFields(cls)) {
+        for(Field field : getFields(cls)) {
             NBT nbt = field.getAnnotation(NBT.class);
 
             if(nbt != null) {
