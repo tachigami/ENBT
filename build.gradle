@@ -1,5 +1,11 @@
+apply plugin: 'com.github.johnrengelman.shadow'
+apply plugin: 'maven-publish'
+apply plugin: 'checkstyle'
+apply plugin: 'idea'
+apply plugin: 'java'
+
 ext {
-    junitVersion = "4.12"
+    junitVersion = '4.12'
     lombokVersion = '1.16.10'
     guavaVersion = '18.0'
     checkstyleVersion = '7.1.2'
@@ -14,10 +20,6 @@ buildscript {
         classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.3'
     }
 }
-
-apply plugin: 'idea'
-apply plugin: 'maven-publish'
-apply plugin: 'java'
 
 group = 'ru.ensemplix.nbt'
 version = '1.0-SNAPSHOT'
@@ -58,21 +60,15 @@ publishing {
     }
 }
 
-apply plugin: 'checkstyle'
 checkstyle {
-    toolVersion = ${checkstyleVersion}
+    toolVersion = "${checkstyleVersion}"
     configFile = file('checkstyle.xml')
 }
 
-apply plugin: 'com.github.johnrengelman.shadow'
 shadowJar {
     classifier = ''
 
     dependencies {
         exclude(dependency('org.projectlombok:lombok'))
     }
-}
-
-task wrapper(type: Wrapper) {
-    gradleVersion = '3.1'
 }
