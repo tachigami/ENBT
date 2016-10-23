@@ -56,7 +56,7 @@ public class ObjectConverter {
                     }
                 } else if(field.getType() == boolean.class) {
                     type = TagType.getType(byte.class);
-                    tag = type.createTag(name, (byte) (((boolean) value) == true ? 1 : 0));
+                    tag = type.createTag(name, (byte) (((boolean) value) ? 1 : 0));
                 } else {
                     tag = toTag(name, field.get(obj));
                 }
